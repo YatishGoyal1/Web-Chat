@@ -1,10 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="message-box">
-    <h2>Chat Room : {{code}}</h2>
-    <div class="messages" id = "messages"></div>
-    <div class = "inputs">
-        <input type="text" rows = "3" placeholder="message" id = "message"/>
+<div class="message-box card">
+    <div class="message-header">
+        <div>
+            <p class="eyebrow">Room</p>
+            <h2>{{code}}</h2>
+        </div>
+        <span class="status-pill">
+            <span class="status-dot"></span>
+            Live
+        </span>
+    </div>
+    <div class="messages" id="messages"></div>
+    <div class="inputs">
+        <input type="text" rows="3" placeholder="Type your message" id="message"/>
         <button type="button" name="send" id="send-btn" onclick="sendMessage()">Send</button>
     </div>
 </div>
@@ -31,9 +40,10 @@
         createMessage(data.name,data.message);
     });
     const sendMessage = () => {
-        const messages = document.getElementById("message")
-        if (message.value == "") return;
-        socketio.emit("message",{ data:message.value })
+        const messageInput = document.getElementById("message");
+        if (messageInput.value === "") return;
+        socketio.emit("message",{ data: messageInput.value });
+        messageInput.value = "";
     };
 </script>
 {% for msg in messages %}

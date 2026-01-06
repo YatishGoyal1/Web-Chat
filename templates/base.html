@@ -4,14 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
     integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
     crossorigin="anonymous"></script>
 </head>
-<body>
-    <div class="content">
-     {% block content %} {% endblock %}
+<body data-theme="dark">
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">Chat App</div>
+            <div class="theme-control">
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                    <option value="amoled">AMOLED</option>
+                </select>
+            </div>
+        </header>
+        <div class="content">
+            {% block content %} {% endblock %}
+        </div>
     </div>
+    <script>
+        (function() {
+            const select = document.getElementById("theme-select");
+            const stored = localStorage.getItem("chat-theme") || "dark";
+            document.body.dataset.theme = stored;
+            select.value = stored;
+            select.addEventListener("change", (event) => {
+                const choice = event.target.value;
+                document.body.dataset.theme = choice;
+                localStorage.setItem("chat-theme", choice);
+            });
+        })();
+    </script>
 </body>
 </html>
