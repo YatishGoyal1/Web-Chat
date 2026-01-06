@@ -68,9 +68,10 @@ def connect(auth):
         leave_room(room)
         return
     join_room(room)
-    send({"name": name,"message":"has entered the room"},to=room)
-    rooms[room]["members"] +=1
-    print(f"{name} joined room {room}")
+    if join_room(room) != False:
+       send({"name": name,"message":"has entered the room"},to=room)
+       rooms[room]["members"] +=1
+       print(f"{name} joined room {room}")
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")
